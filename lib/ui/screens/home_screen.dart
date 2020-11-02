@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_search_bar/flutter_search_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:task_app/models/data_models/tagslist_model.dart';
 import 'package:task_app/services/api/network/http_client.dart';
@@ -13,7 +15,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   MediaQueryData mediaQueryData;
+  SearchBar searchBar;
 
+  _HomeScreenState() {
+    searchBar = SearchBar(
+        setState: setState,
+        buildDefaultAppBar: buildAppBar,
+        inBar: false,
+        onSubmitted: print);
+  }
   @override
   void initState() {
     final tagListModelProvider =
@@ -22,17 +32,26 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
+  void onSearchSubmit(String query) {
+    print(query);
+    Provider.of<TagListModel>(context, listen: false).applySearchFilter(query);
+  }
+
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(StringConstants.homeScreenTitle),
-      ),
+      appBar: searchBar.build(context),
       body: Column(
         children: [Expanded(child: _buildDataCardsList())],
       ),
     );
+  }
+
+  AppBar buildAppBar(BuildContext context) {
+    return new AppBar(
+        title: new Text('Home Page'),
+        actions: [searchBar.getSearchAction(context)]);
   }
 
   Widget _buildDataCardsList() {
