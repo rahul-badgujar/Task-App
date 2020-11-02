@@ -19,24 +19,34 @@ class _HomeScreenState extends State<HomeScreen> {
 
   GlobalKey _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final TextEditingController _searchQueryController = TextEditingController();
+
   _HomeScreenState() {
     searchBar = SearchBar(
         setState: setState,
         buildDefaultAppBar: buildAppBar,
         inBar: false,
-        onSubmitted: onSearchSubmit);
+        hintText: "Search Display Name or Description",
+        clearOnSubmit: true,
+        controller: _searchQueryController);
   }
   @override
   void initState() {
     final tagListModelProvider =
         Provider.of<TagListModel>(context, listen: false);
     tagListModelProvider.loadAllTags();
+
+    _searchQueryController.addListener(() {
+      Provider.of<TagListModel>(context, listen: false)
+          .applySearchFilter(_searchQueryController.text);
+    });
     super.initState();
   }
 
-  void onSearchSubmit(String query) {
-    print(query);
-    Provider.of<TagListModel>(context, listen: false).applySearchFilter(query);
+  @override
+  void dispose() {
+    _searchQueryController.dispose();
+    super.dispose();
   }
 
   @override

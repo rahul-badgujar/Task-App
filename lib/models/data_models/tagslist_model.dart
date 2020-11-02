@@ -29,4 +29,9 @@ class TagListModel extends ChangeNotifier {
     tagsList = tList;
     notifyListeners();
   }
+
+  void clearSearchFilter() {
+    tagsList = permTagsList;
+    notifyListeners();
+  }
 }
