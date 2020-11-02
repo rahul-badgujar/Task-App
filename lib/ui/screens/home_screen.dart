@@ -17,12 +17,14 @@ class _HomeScreenState extends State<HomeScreen> {
   MediaQueryData mediaQueryData;
   SearchBar searchBar;
 
+  GlobalKey _scaffoldKey = GlobalKey<ScaffoldState>();
+
   _HomeScreenState() {
     searchBar = SearchBar(
         setState: setState,
         buildDefaultAppBar: buildAppBar,
         inBar: false,
-        onSubmitted: print);
+        onSubmitted: onSearchSubmit);
   }
   @override
   void initState() {
@@ -41,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
     return Scaffold(
+      key: _scaffoldKey,
       appBar: searchBar.build(context),
       body: Column(
         children: [Expanded(child: _buildDataCardsList())],

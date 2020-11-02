@@ -9,6 +9,7 @@ class TaskApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: StringConstants.appName,
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),

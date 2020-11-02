@@ -18,12 +18,12 @@ class TagListModel extends ChangeNotifier {
   }
 
   void applySearchFilter(String query) {
+    print("Adding");
     List<Tag> tList = List();
     for (Tag tag in permTagsList) {
       if (tag.displayName.toString().contains(query) ||
           tag.description.toString().contains(query)) {
         tList.add(tag);
-        print("Adding");
       }
     }
     tagsList = tList;
