@@ -2,10 +2,12 @@ import 'dart:async';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:task_app/models/data_models/tagslist_model.dart';
+import 'package:task_app/services/database/tables/tags_table.dart';
 
 class DBHelper {
   static const DB_NAME = "Data.db";
-  static const DB_VERSION = 1;
+  static const DB_VERSION = 2;
 
   DBHelper._privateConstructor();
   static final DBHelper _instance = DBHelper._privateConstructor();
@@ -28,5 +30,7 @@ class DBHelper {
     return openDatabase(dbPath, version: DB_VERSION, onCreate: _onCreate);
   }
 
-  FutureOr<void> _onCreate(Database db, int version) async {}
+  FutureOr<void> _onCreate(Database db, int version) async {
+    return await db.execute(TagsTable.createTableSql());
+  }
 }

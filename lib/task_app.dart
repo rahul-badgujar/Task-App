@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:task_app/models/data_models/tagslist_model.dart';
 import 'package:task_app/ui/screens/home_screen.dart';
 import 'package:task_app/utils/constants.dart';
 
@@ -9,9 +10,12 @@ class TaskApp extends StatelessWidget {
     return MaterialApp(
       title: StringConstants.appName,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.pink,
       ),
-      home: HomeScreen(),
+      home: ChangeNotifierProvider<TagListModel>.value(
+        value: TagListModel(),
+        child: HomeScreen(),
+      ),
     );
   }
 }
